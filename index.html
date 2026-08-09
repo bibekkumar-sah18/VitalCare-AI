@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VitalCare AI — Your Health. Your Data. Smarter Care.</title>
+  <meta name="description" content="AI-powered clinical triage, health records, medication tracking, telehealth, emergency SOS, and healthcare finder.">
+  <meta name="theme-color" content="#0EA5E9">
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/favicon.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/auth.css?v=6.0">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/ai-copilot.css">
+  <link rel="stylesheet" href="css/assistant.css">
+  <link rel="stylesheet" href="css/risk-dashboard.css">
+  <link rel="stylesheet" href="css/telehealth.css">
+  <link rel="stylesheet" href="css/diagnostics.css">
+  <link rel="stylesheet" href="css/features.css">
+  <link rel="stylesheet" href="css/journal.css">
+</head>
+<body>
+  <div id="app">
+    <!-- ==========================================
+         TOP HEADER BAR
+         ========================================== -->
+    <header class="header-bar">
+      <a href="#" class="brand-logo" onclick="window.appNav('landing')">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <span>VitalCare <strong style="color:var(--sky-500);">AI</strong></span>
+        <span class="brand-badge">PWA V3.4</span>
+      </a>
+
+      <div class="header-right">
+        <!-- Live Vitals Sync Badge -->
+        <div class="live-indicator">
+          <div class="pulse-dot"></div>
+          <span>LIVE SYNC</span>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" class="icon-btn" title="Toggle Light/Dark Mode">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+
+        <!-- Landing Auth Buttons (Visible when logged out) -->
+        <div id="landing-auth-btns" style="display:flex; gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="window.appNav('auth')">Sign In</button>
+          <button class="btn btn-primary btn-sm" onclick="window.appNav('auth')">Get Started</button>
+        </div>
+
+        <!-- User Profile Pill (Visible when logged in) -->
+        <div class="user-profile-btn" style="display:none;" onclick="window.appNav('vault')">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="User Avatar" class="user-avatar" />
+          <span class="user-role">Alex Miller</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==========================================
+         MAIN CONTAINER (SIDEBAR + VIEWS)
+         ========================================== -->
+    <div class="app-container">
+      <!-- Desktop Sidebar Navigation -->
+      <aside class="desktop-sidebar" style="display:none;">
+        <a class="nav-item active" data-view="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" data-view="copilot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>Symptom Checker</span>
+        </a>
+        <a class="nav-item" data-view="assistant">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>AI Assistant</span>
+        </a>
+        <a class="nav-item" data-view="analytics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="M18 17l-5-5-4 4-3-3"/></svg>
+          <span>Health Analytics</span>
+        </a>
+        <a class="nav-item" data-view="risk-dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          <span>AI Risk Engine</span>
+        </a>
+        <a class="nav-item" data-view="records">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Health Records</span>
+        </a>
+        <a class="nav-item" data-view="medications" style="position:relative;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z"/><path d="M8.5 8.5l7 7"/></svg>
+          <span>Medications</span>
+          <span id="badge-medications-sidebar" class="nav-badge"></span>
+        </a>
+        <a class="nav-item" data-view="appointments" style="position:relative;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Appointments</span>
+          <span id="badge-appointments-sidebar" class="nav-badge"></span>
+        </a>
+        <a class="nav-item" data-view="emergency" style="color:var(--rose-500);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Emergency SOS</span>
+        </a>
+        <a class="nav-item" data-view="find-healthcare">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Find Healthcare</span>
+        </a>
+        <a class="nav-item" data-view="telehealth">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          <span>Telehealth Hub</span>
+        </a>
+        <a class="nav-item" data-view="vault">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+          <span>Health Vault</span>
+        </a>
+        <a class="nav-item" data-view="journal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Health Journal</span>
+        </a>
+
+        <div class="sidebar-spacer"></div>
+
+        <button class="nav-item logout-btn" style="color:var(--rose-500); background:transparent; border:none; width:100%; text-align:left;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sign Out</span>
+        </button>
+      </aside>
+
+      <!-- Main Content View Area -->
+      <main class="main-content">
+
+        <!-- ==========================================
+             VIEW 0: LANDING PAGE
+             ========================================== -->
+        <section id="view-landing" class="view-section active landing-section">
+          <div class="hero-container">
+            <div>
+              <div class="hero-badge"><span class="pulse-dot"></span> CLINICAL-GRADE AI HEALTH PLATFORM</div>
+              <h1 class="hero-title">VitalCare <span style="color:var(--sky-500);">AI</span></h1>
+              <div class="hero-tagline">“Your health. Your data. Smarter care.”</div>
+              <p class="hero-description">Next-generation personal digital healthcare. Biometric monitoring, symptom triage, medication adherence, lab OCR analytics, and emergency SOS assistance.</p>
+              <div class="hero-actions">
+                <button class="btn btn-primary btn-lg" onclick="window.appNav('auth')">Get Started Free →</button>
+                <button class="btn btn-secondary btn-lg" onclick="window.appNav('auth')">Member Sign In</button>
+              </div>
+            </div>
+
+            <div class="hero-preview-card">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <div>
+                  <h4 style="font-weight:700; font-size:1rem;">Live Health Stream</h4>
+                  <p style="font-size:0.78rem; color:var(--text-muted);">Wearable Synced</p>
+                </div>
+                <span class="chip chip-normal">● 72 BPM Optimal</span>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div style="background:var(--bg-surface-elevated); padding:12px; border-radius:var(--radius-md);">
+                  <div style="font-size:0.75rem; color:var(--text-muted);">Blood Pressure</div>
+                  <div style="font-weight:800; font-size:1.2rem; color:var(--sky-500);">118/78</div>
+                </div>
+                <div style="background:var(--bg-surface-elevated); padding:12px; border-radius:var(--radius-md);">
+                  <div style="font-size:0.75rem; color:var(--text-muted);">Wellness Index</div>
+                  <div style="font-weight:800; font-size:1.2rem; color:var(--emerald-500);">94 / 100</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="landing-features-section">
+            <div class="section-header-center">
+              <h2>Comprehensive Digital Health Ecosystem</h2>
+              <p>Everything you need for complete preventative wellness, medication management, and emergency response.</p>
+            </div>
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-icon-wrapper">🩺</div>
+                <h3 class="feature-title">AI Symptom Triage</h3>
+                <p class="feature-desc">Interactive anatomical body map selector providing instant differential risk assessments and recommended next steps.</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon-wrapper">💊</div>
+                <h3 class="feature-title">Medication Manager</h3>
+                <p class="feature-desc">Track dosages, timing, adherence scores, and mark pills taken/missed with smart reminders.</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon-wrapper">📁</div>
+                <h3 class="feature-title">Digital Health Records</h3>
+                <p class="feature-desc">Secure vault for lab results, prescriptions, physical reports, and vaccination certificates with OCR search.</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon-wrapper">🚨</div>
+                <h3 class="feature-title">Emergency SOS & Finder</h3>
+                <p class="feature-desc">Instant 1-tap confirmation SOS pass with GPS location detection and nearby ER facility locator.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="privacy-banner">
+            <div>
+              <h2 style="font-family:var(--font-heading); font-size:1.6rem; font-weight:800; margin-bottom:8px;">Enterprise Health Data Security</h2>
+              <p style="font-size:0.92rem; opacity:0.9; max-width:600px;">Protected by AES-256 encryption. We adhere strictly to HIPAA and GDPR health privacy standards.</p>
+              <div class="privacy-badge-list">
+                <span class="privacy-badge-pill">🔒 HIPAA Compliant</span>
+                <span class="privacy-badge-pill">🛡️ GDPR Ready</span>
+                <span class="privacy-badge-pill">🔑 Zero-Knowledge Encryption</span>
+              </div>
+            </div>
+            <button class="btn btn-emerald btn-lg" onclick="window.appNav('auth')">Create Secure Account</button>
+          </div>
+
+          <footer class="landing-footer">
+            <div class="footer-inner">
+              <div>
+                <a href="#" class="brand-logo"><span>VitalCare <strong>AI</strong></span></a>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">Your health. Your data. Smarter care.</p>
+              </div>
+              <div style="font-size:0.85rem; color:var(--text-secondary);">© 2026 VitalCare AI Inc. All rights reserved.</div>
+            </div>
+            <div class="footer-disclaimer-bar">
+              <strong>Medical Disclaimer:</strong> VitalCare AI provides AI-assisted health assessment tools for informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. In a medical emergency, call 911 immediately.
+            </div>
+          </footer>
+        </section>
+
+        <!-- ==========================================
+             VIEW AUTH: SINGLE CARD ROLE-BASED AUTH
+             ========================================== -->
+        <section id="view-auth" class="view-section auth-page-wrapper">
+          <div class="auth-card">
+
+            <!-- ── Brand Header ── -->
+            <div class="auth-brand-header">
+              <div class="auth-logo-badge">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div>
+              <h2 class="auth-brand-title">VitalCare <span style="color:var(--sky-500);">AI</span></h2>
+              <p class="auth-brand-subtitle">Your health. Your data. Smarter care.</p>
+            </div>
+
+            <!-- ── Role Picker ── -->
+            <div class="role-picker" id="auth-role-picker">
+              <button id="role-btn-patient" class="role-pick-btn active" data-role="patient">
+                <span>👤</span> Patient
+              </button>
+              <button id="role-btn-admin" class="role-pick-btn" data-role="admin">
+                <span>🛡️</span> Administrator
+              </button>
+            </div>
+
+            <!-- ── PATIENT SECTION ── -->
+            <div id="patient-auth-section">
+              <!-- Patient Tab Nav -->
+              <div class="auth-tab-nav">
+                <button class="auth-tab-btn active" id="tab-btn-signin" data-tab="signin">Sign In</button>
+                <button class="auth-tab-btn" id="tab-btn-register" data-tab="register">Create Account</button>
+              </div>
+
+              <!-- Patient Sign In Form -->
+              <div id="patient-signin-view" class="auth-form-view active">
+                <div id="signin-alert" class="form-alert-box"></div>
+                <form id="form-patient-signin" novalidate>
+                  <div class="form-field-group">
+                    <label for="ps-email">Email Address</label>
+                    <input type="email" id="ps-email" class="input-field" placeholder="name@example.com" autocomplete="email"/>
+                  </div>
+                  <div class="form-field-group">
+                    <label for="ps-password">Password</label>
+                    <div class="input-with-icon">
+                      <input type="password" id="ps-password" class="input-field" placeholder="••••••••" autocomplete="current-password"/>
+                      <button type="button" class="password-eye-btn" title="Show/hide password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    </div>
+                  </div>
+                  <div class="form-options-bar">
+                    <label class="checkbox-label"><input type="checkbox" id="ps-remember" checked/><span>Remember me</span></label>
+                    <button type="button" class="forgot-link" id="open-forgot-modal">Forgot password?</button>
+                  </div>
+                  <button type="submit" id="btn-patient-signin" class="btn btn-primary btn-lg auth-submit-btn">Sign In →</button>
+                </form>
+                <div class="social-divider"><span>OR CONTINUE WITH</span></div>
+                <button type="button" id="btn-google-auth" class="google-auth-btn">
+                  <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                  Continue with Google
+                </button>
+                <p class="auth-switch-link">Don't have an account? <button type="button" class="link-btn" data-switch-tab="register">Create Account</button></p>
+              </div>
+
+              <!-- Patient Register Form -->
+              <div id="patient-register-view" class="auth-form-view">
+                <div id="register-alert" class="form-alert-box"></div>
+                <form id="form-patient-register" novalidate>
+                  <div class="form-field-group">
+                    <label for="pr-name">Full Name</label>
+                    <input type="text" id="pr-name" class="input-field" placeholder="Alex Miller" autocomplete="name"/>
+                  </div>
+                  <div class="form-field-group">
+                    <label for="pr-email">Email Address</label>
+                    <input type="email" id="pr-email" class="input-field" placeholder="name@example.com" autocomplete="email"/>
+                  </div>
+                  <div class="form-field-group">
+                    <label for="pr-password">Password</label>
+                    <div class="input-with-icon">
+                      <input type="password" id="pr-password" class="input-field" placeholder="Min. 8 characters" autocomplete="new-password"/>
+                      <button type="button" class="password-eye-btn" title="Show/hide password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    </div>
+                    <div class="password-strength-wrap">
+                      <div class="strength-bar-track">
+                        <div id="strength-seg-1" class="strength-bar-segment"></div>
+                        <div id="strength-seg-2" class="strength-bar-segment"></div>
+                        <div id="strength-seg-3" class="strength-bar-segment"></div>
+                        <div id="strength-seg-4" class="strength-bar-segment"></div>
+                      </div>
+                      <span id="strength-text-label" class="strength-text">Password strength</span>
+                    </div>
+                  </div>
+                  <div class="form-field-group">
+                    <label for="pr-confirm">Confirm Password</label>
+                    <div class="input-with-icon">
+                      <input type="password" id="pr-confirm" class="input-field" placeholder="Re-enter password" autocomplete="new-password"/>
+                      <button type="button" class="password-eye-btn" title="Show/hide password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    </div>
+                  </div>
+                  <label class="checkbox-label" style="font-size:0.8rem;margin-bottom:10px;">
+                    <input type="checkbox" id="pr-consent" checked/>
+                    <span>I agree to the <a href="#" style="color:var(--sky-500);">Terms</a> &amp; <a href="#" style="color:var(--sky-500);">Privacy Policy</a></span>
+                  </label>
+                  <button type="submit" id="btn-patient-register" class="btn btn-primary btn-lg auth-submit-btn">Create Account →</button>
+                </form>
+                <p class="auth-switch-link">Already have an account? <button type="button" class="link-btn" data-switch-tab="signin">Sign In</button></p>
+              </div>
+            </div><!-- /patient-auth-section -->
+
+            <!-- ── ADMIN SECTION (hidden by default) ── -->
+            <div id="admin-auth-section" style="display:none;">
+              <div class="admin-security-badge">
+                <div class="security-dot"></div>
+                <span>Restricted — authorized personnel only. All access is logged.</span>
+              </div>
+              <div id="admin-alert" class="form-alert-box"></div>
+              <form id="form-admin-signin" novalidate>
+                <div class="form-field-group">
+                  <label for="ad-email">Admin Email / Username</label>
+                  <input type="text" id="ad-email" class="input-field" placeholder="admin@vitalcare.ai" autocomplete="username"/>
+                </div>
+                <div class="form-field-group">
+                  <label for="ad-password">Password</label>
+                  <div class="input-with-icon">
+                    <input type="password" id="ad-password" class="input-field" placeholder="••••••••" autocomplete="current-password"/>
+                    <button type="button" class="password-eye-btn" title="Show/hide password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  </div>
+                </div>
+                <div class="form-options-bar">
+                  <label class="checkbox-label"><input type="checkbox" id="ad-remember"/><span>Keep signed in</span></label>
+                  <button type="button" class="forgot-link" id="open-forgot-modal-admin">Forgot password?</button>
+                </div>
+                <button type="submit" id="btn-admin-signin" class="btn btn-admin btn-lg auth-submit-btn">Sign In as Administrator →</button>
+              </form>
+              <p style="text-align:center;font-size:0.74rem;color:var(--text-muted);margin-top:14px;">⚠️ No public admin registration. Accounts provisioned by IT only.</p>
+              <p style="text-align:center;font-size:0.72rem;color:var(--text-muted);margin-top:4px;">Demo: <strong style="color:var(--indigo-500);">admin@vitalcare.ai</strong> / <strong style="color:var(--indigo-500);">Admin@2026</strong></p>
+            </div><!-- /admin-auth-section -->
+
+            <!-- ── ADMIN 2FA (hidden) ── -->
+            <div id="admin-2fa-section" style="display:none;">
+              <div style="text-align:center;margin-bottom:18px;">
+                <div style="font-size:2.5rem;margin-bottom:10px;">🛡️</div>
+                <h3 style="font-family:var(--font-heading);font-size:1.2rem;font-weight:800;color:var(--text-primary);margin-bottom:4px;">Two-Factor Authentication</h3>
+                <p style="font-size:0.82rem;color:var(--text-muted);">Enter the 6-digit code from your authenticator app.</p>
+              </div>
+              <div id="otp-alert" class="form-alert-box"></div>
+              <form id="form-admin-otp" novalidate>
+                <div class="otp-container">
+                  <input type="text" class="otp-input" inputmode="numeric" maxlength="1" placeholder="·"/>
+                  <input type="text" class="otp-input" inputmode="numeric" maxlength="1" placeholder="·"/>
+                  <input type="text" class="otp-input" inputmode="numeric" maxlength="1" placeholder="·"/>
+                  <input type="text" class="otp-input" inputmode="numeric" maxlength="1" placeholder="·"/>
+                  <input type="text" class="otp-input" inputmode="numeric" maxlength="1" placeholder="·"/>
+                  <input type="text" class="otp-input" inputmode="numeric" maxlength="1" placeholder="·"/>
+                </div>
+                <p style="text-align:center;font-size:0.74rem;color:var(--text-muted);margin-bottom:16px;">Demo code: <strong style="color:var(--indigo-500);letter-spacing:3px;font-size:1rem;">123456</strong></p>
+                <button type="submit" id="btn-verify-otp" class="btn btn-admin btn-lg auth-submit-btn" style="width:100%;">Verify &amp; Access Admin Portal →</button>
+              </form>
+              <p style="text-align:center;margin-top:12px;"><button type="button" id="btn-cancel-2fa" class="link-btn">← Cancel</button></p>
+            </div><!-- /admin-2fa-section -->
+
+            <!-- ── EMAIL VERIFY (hidden) ── -->
+            <div id="email-verify-section" style="display:none;">
+              <div style="text-align:center;">
+                <div class="email-verify-illustration">📧</div>
+                <h3 style="font-family:var(--font-heading);font-size:1.3rem;font-weight:800;color:var(--text-primary);margin-bottom:8px;">Verify Your Email</h3>
+                <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:8px;">A verification link was sent to:</p>
+                <p class="verify-email-display" id="verify-email-display">—</p>
+                <p style="font-size:0.78rem;color:var(--text-muted);margin-top:10px;line-height:1.65;">Click the link in your email, then continue to health profile setup.</p>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+                <button id="btn-demo-verified" class="btn btn-primary btn-lg" style="width:100%;">✓ I've Verified — Continue to Profile</button>
+                <button id="btn-resend-verify" class="btn btn-secondary" style="width:100%;">Resend Verification Email</button>
+                <button type="button" id="btn-back-from-verify" class="link-btn" style="text-align:center;margin-top:4px;">← Back to Sign In</button>
+              </div>
+            </div><!-- /email-verify-section -->
+
+          </div><!-- /auth-card -->
+        </section>
+
+
+
+
+        <!-- VIEW 2: MULTI-STEP HEALTH PROFILE ONBOARDING -->
+        <section id="view-onboarding" class="view-section onboarding-wrapper">
+          <div class="onboarding-card">
+            <div class="onboarding-progress-header">
+              <div class="progress-info">
+                <span>Personal Health Onboarding</span>
+                <span id="onboarding-step-label">Step 1 of 6 (16%)</span>
+              </div>
+              <div class="progress-track"><div id="onboarding-progress-fill" class="progress-bar-fill"></div></div>
+            </div>
+
+            <div id="ob-step-1" class="step-content active">
+              <h3 class="step-title">Personal Information</h3>
+              <p class="step-subtitle">Tell us about yourself to establish your baseline health biometric profile.</p>
+              <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="ob-fullname" class="input-field" value="Alex Miller" /></div>
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Date of Birth</label><input type="date" id="ob-dob" class="input-field" value="1992-11-14" /></div>
+                <div class="form-group"><label class="form-label">Gender</label><select id="ob-gender" class="select-field"><option value="Male" selected>Male</option><option value="Female">Female</option></select></div>
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Height (cm)</label><input type="number" id="ob-height" class="input-field" value="178" /></div>
+                <div class="form-group"><label class="form-label">Weight (kg)</label><input type="number" id="ob-weight" class="input-field" value="74" /></div>
+              </div>
+              <div id="ob-bmi-display" style="padding:10px; background:var(--bg-surface-elevated); border-radius:var(--radius-md); font-size:0.85rem; text-align:center;">
+                Calculated BMI: <strong>23.4</strong> (Normal Weight)
+              </div>
+            </div>
+
+            <div id="ob-step-2" class="step-content">
+              <h3 class="step-title">Medical History</h3>
+              <p class="step-subtitle">Select or enter pre-existing medical conditions or past surgeries.</p>
+              <div class="form-group"><label class="form-label">Known Conditions & Surgeries</label><textarea id="ob-history" class="textarea-field" rows="4">Mild Hypertension</textarea></div>
+            </div>
+
+            <div id="ob-step-3" class="step-content">
+              <h3 class="step-title">Allergies & Sensitivities</h3>
+              <p class="step-subtitle">List drug, food, or environmental allergies for emergency alerts.</p>
+              <div class="form-group"><label class="form-label">Allergies (comma separated)</label><input type="text" id="ob-allergies" class="input-field" value="Penicillin, Dust Mites" /></div>
+            </div>
+
+            <div id="ob-step-4" class="step-content">
+              <h3 class="step-title">Lifestyle & Habits</h3>
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Activity Level</label><select id="ob-activity" class="select-field"><option value="Moderately Active" selected>Moderately Active (3-4x/wk)</option><option value="Very Active">Very Active</option></select></div>
+                <div class="form-group"><label class="form-label">Smoking Status</label><select id="ob-smoking" class="select-field"><option value="Non-Smoker" selected>Non-Smoker</option><option value="Smoker">Smoker</option></select></div>
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Alcohol</label><select id="ob-alcohol" class="select-field"><option value="Occasional" selected>Occasional (1-2 drinks/wk)</option><option value="None">None</option></select></div>
+                <div class="form-group"><label class="form-label">Avg Sleep (Hrs)</label><input type="number" id="ob-sleep" class="input-field" value="7.5" step="0.5" /></div>
+              </div>
+            </div>
+
+            <div id="ob-step-5" class="step-content">
+              <h3 class="step-title">Current Medications</h3>
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Medication Name</label><input type="text" id="ob-med-name" class="input-field" value="Omega-3 Fatty Acid" /></div>
+                <div class="form-group"><label class="form-label">Dosage</label><input type="text" id="ob-med-dose" class="input-field" value="1000mg" /></div>
+              </div>
+            </div>
+
+            <div id="ob-step-6" class="step-content">
+              <h3 class="step-title">Emergency Contacts</h3>
+              <div class="form-group"><label class="form-label">Primary Contact Name</label><input type="text" id="ob-emergency-name" class="input-field" value="Elena Miller" /></div>
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Relationship</label><input type="text" id="ob-emergency-relation" class="input-field" value="Spouse" /></div>
+                <div class="form-group"><label class="form-label">Phone Number</label><input type="text" id="ob-emergency-phone" class="input-field" value="(555) 019-2831" /></div>
+              </div>
+            </div>
+
+            <div class="step-actions">
+              <button id="onboarding-prev-btn" class="btn btn-secondary" style="visibility:hidden;">← Previous Step</button>
+              <button id="onboarding-next-btn" class="btn btn-primary">Next Step →</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 3: PERSONALIZED HEALTH DASHBOARD -->
+        <section id="view-dashboard" class="view-section">
+          <!-- Welcome Banner -->
+          <div class="welcome-banner">
+            <div class="welcome-text">
+              <h1>Good Afternoon, <span id="user-greeting-name">Alex</span> 👋</h1>
+              <p>Your AI Health Monitor reports <strong>Optimal Vitals</strong> today. Smart wearables synced 2m ago.</p>
+            </div>
+            <div class="welcome-actions">
+              <button class="btn btn-primary btn-sm" onclick="window.appNav('copilot')">🩺 AI Check-up</button>
+            </div>
+          </div>
+
+          <!-- BMI & Quick Health Status Pills -->
+          <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+            <div class="chip chip-normal" style="padding:8px 16px; font-size:0.85rem; cursor:pointer;" onclick="window.appNav('analytics')">
+              ⚖️ BMI Index: <strong id="user-bmi-val">23.4</strong> (<span id="user-bmi-cat">Normal</span>)
+            </div>
+            <div class="chip chip-sky" style="padding:8px 16px; font-size:0.85rem; cursor:pointer;" onclick="window.appNav('risk-dashboard')">
+              🛡️ Cardiovascular Risk: <strong>12% (Low)</strong>
+            </div>
+            <div class="chip chip-ai" style="padding:8px 16px; font-size:0.85rem; cursor:pointer;" onclick="window.appNav('medications')">
+              💊 Med Adherence: <strong>87%</strong>
+            </div>
+          </div>
+
+          <!-- Upcoming Appointment Quick Banner -->
+          <div id="telehealth-upcoming-banner" class="join-call-banner">
+            <div class="doctor-quick-info">
+              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&q=80" class="doc-avatar-thumb" alt="Doctor" />
+              <div>
+                <div class="chip chip-sky" style="margin-bottom:2px;">CONFIRMED CONSULTATION</div>
+                <h4 style="font-size:0.95rem; font-weight:700;">Dr. Sarah Jenkins (Cardiology)</h4>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Today at 4:30 PM • HD Telehealth Room</p>
+              </div>
+            </div>
+            <button class="btn btn-emerald join-telehealth-btn">📹 Enter Video Room</button>
+          </div>
+
+          <!-- Live Vitals Monitoring Grid -->
+          <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+            <h3 class="card-title">Live Biometric Stream</h3>
+            <span style="font-size:0.78rem; color:var(--text-muted); font-weight:600;">Apple Watch Series 9</span>
+          </div>
+
+          <div class="vitals-grid" style="margin-bottom:24px;">
+            <div class="vital-card" onclick="window.appNav('diagnostics')" style="cursor:pointer;">
+              <div class="vital-top"><span style="font-size:0.8rem; font-weight:700;">Heart Rate</span><div class="vital-icon heart">❤️</div></div>
+              <div class="vital-value-wrap"><span id="vital-hr-value" class="vital-value">72</span><span class="vital-unit">BPM</span></div>
+              <div class="chip chip-normal" style="margin-top:6px; align-self:flex-start;">Optimal</div>
+              <div id="heart-sparkline" class="vital-sparkline"></div>
+            </div>
+            <div class="vital-card" onclick="window.appNav('diagnostics')" style="cursor:pointer;">
+              <div class="vital-top"><span style="font-size:0.8rem; font-weight:700;">Blood Pressure</span><div class="vital-icon bp">🩸</div></div>
+              <div class="vital-value-wrap"><span class="vital-value">118/78</span><span class="vital-unit">mmHg</span></div>
+              <div class="chip chip-normal" style="margin-top:6px; align-self:flex-start;">Normal</div>
+              <div id="bp-sparkline" class="vital-sparkline"></div>
+            </div>
+            <div class="vital-card" onclick="window.appNav('diagnostics')" style="cursor:pointer;">
+              <div class="vital-top"><span style="font-size:0.8rem; font-weight:700;">Blood Oxygen</span><div class="vital-icon spo2">🫁</div></div>
+              <div class="vital-value-wrap"><span class="vital-value">99</span><span class="vital-unit">%</span></div>
+              <div class="chip chip-normal" style="margin-top:6px; align-self:flex-start;">Optimal</div>
+              <div id="spo2-sparkline" class="vital-sparkline"></div>
+            </div>
+            <div class="vital-card" onclick="window.appNav('diagnostics')" style="cursor:pointer;">
+              <div class="vital-top"><span style="font-size:0.8rem; font-weight:700;">Fasting Glucose</span><div class="vital-icon glucose">📉</div></div>
+              <div class="vital-value-wrap"><span class="vital-value">95</span><span class="vital-unit">mg/dL</span></div>
+              <div class="chip chip-normal" style="margin-top:6px; align-self:flex-start;">Normal</div>
+              <div id="glucose-sparkline" class="vital-sparkline"></div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="ai-risk-card" onclick="window.appNav('risk-dashboard')" style="cursor:pointer;">
+              <div class="card-header"><h3 class="card-title"><span class="chip chip-ai">AI PREDICTIVE</span> Wellness Index</h3></div>
+              <div class="gauge-container">
+                <div class="gauge-circle">
+                  <svg class="gauge-svg" viewBox="0 0 100 100">
+                    <defs><linearGradient id="cyan-teal-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs>
+                    <circle class="gauge-bg" cx="50" cy="50" r="45" /><circle class="gauge-fill" cx="50" cy="50" r="45" />
+                  </svg>
+                  <div class="gauge-text"><div class="gauge-score">94</div><div class="gauge-label">Optimal</div></div>
+                </div>
+              </div>
+              <div class="risk-metrics-list">
+                <div class="risk-item"><span>Cardiovascular Risk</span><span class="chip chip-normal">12% Low</span></div>
+                <div class="risk-item"><span>Metabolic Health</span><span class="chip chip-normal">Optimal</span></div>
+                <div class="risk-item"><span>Sleep Recovery</span><span class="chip chip-sky">88 / 100</span></div>
+              </div>
+            </div>
+
+            <div class="vc-card">
+              <div class="card-header">
+                <h3 class="card-title">Daily Medication Tracker</h3>
+                <button class="btn btn-sm btn-outline" onclick="window.appNav('medications')">Manage All</button>
+              </div>
+              <div class="med-item taken">
+                <div class="med-info"><h4>Omega-3 Fatty Acid (1000mg)</h4><p>1 Pill • Morning (08:00 AM)</p></div>
+                <span class="chip chip-normal">✓ Taken</span>
+              </div>
+              <div class="med-item taken">
+                <div class="med-info"><h4>Vitamin D3 (2000 IU)</h4><p>1 Capsule • Lunchtime (01:00 PM)</p></div>
+                <span class="chip chip-normal">✓ Taken</span>
+              </div>
+              <div class="med-item">
+                <div class="med-info"><h4>Magnesium Glycinate (200mg)</h4><p>1 Pill • Bedtime (09:30 PM)</p></div>
+                <span class="chip chip-warning">Upcoming</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 4: SYMPTOM CHECKER -->
+        <section id="view-copilot" class="view-section">
+          <div class="copilot-container">
+            <div class="body-map-card">
+              <div><h3 class="card-title">Interactive Symptom Inputs</h3><p class="card-subtitle">Select body region, severity, and duration</p></div>
+              <div class="body-selector-grid">
+                <button class="body-part-btn active" data-part="head"><span>Head & Brain</span></button>
+                <button class="body-part-btn" data-part="chest"><span>Chest & Heart</span></button>
+                <button class="body-part-btn" data-part="abdomen"><span>Abdomen</span></button>
+                <button class="body-part-btn" data-part="skin"><span>Skin & Dermal</span></button>
+              </div>
+              <div style="background:var(--bg-surface-elevated); padding:14px; border-radius:var(--radius-md); margin-top:8px;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" style="display:flex; justify-content:space-between;">
+                    <span>Severity Scale (1-10):</span><strong id="severity-val-display" style="color:var(--sky-500);">4</strong>
+                  </label>
+                  <input type="range" id="symptom-severity-slider" min="1" max="10" value="4" style="width:100%; accent-color:var(--sky-500);" />
+                </div>
+              </div>
+              <div>
+                <label class="form-label" style="margin-top:10px;">Quick Suggestions:</label>
+                <div id="quick-prompts-container" class="quick-prompts-wrapper">
+                  <button class="quick-prompt-chip">Sharp headache behind eyes</button>
+                  <button class="quick-prompt-chip">Dizziness when standing up</button>
+                </div>
+              </div>
+              <div style="margin-top:12px;">
+                <h4 style="font-size:0.85rem; font-weight:700; margin-bottom:8px;">Symptom Log History</h4>
+                <div id="symptom-history-log-container" style="display:flex; flex-direction:column; gap:6px;"></div>
+              </div>
+            </div>
+
+            <div class="chat-panel">
+              <div class="chat-header">
+                <div class="copilot-title"><div class="ai-avatar-badge">AI</div><div><h3 style="font-size:1rem; font-weight:700;">VitalCare Copilot V2</h3><p style="font-size:0.75rem; color:var(--emerald-600); font-weight:600;">● Active Clinical Assistant</p></div></div>
+              </div>
+              <div id="chat-messages-container" class="chat-messages">
+                <div class="chat-bubble-wrap ai">
+                  <div class="ai-avatar-badge" style="width:32px;height:32px;font-size:0.75rem;">AI</div>
+                  <div class="chat-bubble">Hello! Describe your symptoms or select a region on the left.</div>
+                </div>
+              </div>
+              <div class="chat-input-area">
+                <input id="chat-input-field" type="text" class="chat-input" placeholder="Describe symptoms (e.g. 'Sharp headache')..." />
+                <button id="send-chat-btn" class="btn btn-primary btn-icon-only">➤</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 5: VITALCARE ASSISTANT -->
+        <section id="view-assistant" class="view-section">
+          <div class="assistant-container">
+            <div class="assistant-main-card">
+              <div class="disclaimer-top-banner">⚠️ VitalCare Assistant provides AI health guidance for educational purposes only. Not a medical diagnosis.</div>
+              <div id="assistant-messages-container" class="assistant-messages-body">
+                <div class="chat-bubble-wrap ai">
+                  <div class="ai-avatar-badge" style="width:32px;height:32px;font-size:0.75rem;">VC</div>
+                  <div class="chat-bubble">Welcome! Ask me health questions, drug interaction details, or lab report interpretations.</div>
+                </div>
+              </div>
+              <div class="suggested-prompts-bar">
+                <button class="assistant-prompt-chip">Explain my lipid panel results</button>
+                <button class="assistant-prompt-chip">Side effects of Metformin</button>
+                <button class="assistant-prompt-chip">What is a normal resting heart rate?</button>
+              </div>
+              <div class="chat-input-area">
+                <input id="assistant-input" type="text" class="chat-input" placeholder="Ask VitalCare Assistant any health question..." />
+                <button id="assistant-send-btn" class="btn btn-primary btn-icon-only">➤</button>
+              </div>
+            </div>
+            <div class="vc-card">
+              <h3 class="card-title">Capabilities</h3>
+              <ul style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6; padding-left:16px;">
+                <li>Lab OCR Interpretation</li>
+                <li>Prescription & Dosagespecs</li>
+                <li>Preventative Health Tips</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 6: DIGITAL HEALTH RECORDS -->
+        <section id="view-records" class="view-section">
+          <div style="margin-bottom:20px;">
+            <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Digital Health Records Vault</h2>
+            <p style="color:var(--text-muted); font-size:0.85rem;">Upload, search, filter and securely manage your medical reports, lab results, and vaccination records.</p>
+          </div>
+
+          <div class="record-upload-zone" id="record-upload-dropzone">
+            <input type="file" id="record-file-input" style="display:none;" accept=".pdf,.png,.jpg,.doc" />
+            <div style="font-size:2rem; margin-bottom:8px;">📁</div>
+            <p style="font-weight:700;">Drag & drop medical report or <span style="color:var(--sky-500); text-decoration:underline;">Browse Files</span></p>
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+              <select id="record-type-select" class="select-field" style="max-width:180px;" onclick="event.stopPropagation()">
+                <option value="report">Physical Report</option>
+                <option value="lab">Lab Result</option>
+                <option value="prescription">Prescription</option>
+                <option value="vaccination">Vaccination</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="records-toolbar">
+            <div class="search-input-wrap" style="flex:1;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="record-search-input" class="input-field" placeholder="Search records by name or provider..." />
+            </div>
+            <div class="filter-tab-group">
+              <button class="filter-tab active" data-record-type="all">All</button>
+              <button class="filter-tab" data-record-type="report">Reports</button>
+              <button class="filter-tab" data-record-type="lab">Lab Results</button>
+              <button class="filter-tab" data-record-type="prescription">Prescriptions</button>
+              <button class="filter-tab" data-record-type="vaccination">Vaccinations</button>
+            </div>
+          </div>
+
+          <div id="records-list-container" class="records-list"></div>
+        </section>
+
+        <!-- VIEW 7: MEDICATION MANAGEMENT -->
+        <section id="view-medications" class="view-section">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Medication Management</h2>
+              <p style="color:var(--text-muted); font-size:0.85rem;">Track prescriptions, dosage, timing, and daily adherence.</p>
+            </div>
+            <button class="btn btn-primary" id="show-add-med-btn">+ Add Medication</button>
+          </div>
+
+          <div class="adherence-bar-wrap" style="margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:0.9rem;">Weekly Adherence Score</strong>
+              <span id="adherence-score" style="font-family:var(--font-heading); font-size:1.3rem; font-weight:800; color:var(--emerald-500);">87%</span>
+            </div>
+            <div class="adherence-track"><div id="adherence-fill-bar" class="adherence-fill" style="width:87%;"></div></div>
+          </div>
+
+          <!-- Add Med Collapsible Form -->
+          <div id="add-med-panel" class="med-form-card" style="display:none; margin-bottom:20px;">
+            <h3 class="card-title" style="margin-bottom:14px;">Add New Medication</h3>
+            <form id="add-med-form">
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Medicine Name</label><input type="text" id="med-name-input" class="input-field" placeholder="e.g. Lisinopril" required /></div>
+                <div class="form-group"><label class="form-label">Dosage</label><input type="text" id="med-dose-input" class="input-field" placeholder="e.g. 10mg" required /></div>
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Frequency</label>
+                  <select id="med-freq-input" class="select-field">
+                    <option value="Once Daily">Once Daily</option>
+                    <option value="Twice Daily">Twice Daily</option>
+                    <option value="As Needed">As Needed</option>
+                  </select>
+                </div>
+                <div class="form-group"><label class="form-label">Timing</label><input type="text" id="med-timing-input" class="input-field" placeholder="e.g. Morning with breakfast" /></div>
+              </div>
+              <button type="submit" class="btn btn-emerald" style="width:100%;">Save Medication</button>
+            </form>
+          </div>
+
+          <div id="med-list-container" class="med-list-container"></div>
+        </section>
+
+        <!-- VIEW 8: APPOINTMENT MANAGEMENT -->
+        <section id="view-appointments" class="view-section">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Appointments</h2>
+              <p style="color:var(--text-muted); font-size:0.85rem;">Manage upcoming doctor consultations and past appointment history.</p>
+            </div>
+            <button class="btn btn-primary" id="show-add-appt-btn">+ Book Appointment</button>
+          </div>
+
+          <div class="appt-tabs">
+            <button class="appt-tab-btn active" data-appt-tab="upcoming">Upcoming</button>
+            <button class="appt-tab-btn" data-appt-tab="past">Past History</button>
+          </div>
+
+          <!-- Add Appointment Form -->
+          <div id="add-appt-panel" class="med-form-card" style="display:none; margin-bottom:20px;">
+            <h3 class="card-title" style="margin-bottom:14px;">Schedule Appointment</h3>
+            <form id="add-appt-form">
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Doctor Name</label><input type="text" id="appt-doctor" class="input-field" placeholder="Dr. Sarah Jenkins" required /></div>
+                <div class="form-group">
+                  <label class="form-label">Specialty</label>
+                  <select id="appt-specialty" class="select-field">
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Primary Care">Primary Care</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Dermatology">Dermatology</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group"><label class="form-label">Date</label><input type="date" id="appt-date" class="input-field" required /></div>
+                <div class="form-group"><label class="form-label">Time</label><input type="text" id="appt-time" class="input-field" placeholder="4:30 PM" required /></div>
+              </div>
+              <div class="form-group"><label class="form-label">Reason / Symptoms</label><input type="text" id="appt-reason" class="input-field" placeholder="Routine check-up" /></div>
+              <button type="submit" class="btn btn-primary" style="width:100%;">Confirm Appointment Schedule</button>
+            </form>
+          </div>
+
+          <div id="appts-list-container"></div>
+        </section>
+
+        <!-- VIEW 9: EMERGENCY SOS -->
+        <section id="view-emergency" class="view-section">
+          <div class="sos-hero-card">
+            <span class="chip chip-danger" style="margin-bottom:10px;">PARAMEDIC EMERGENCY RESPONSE</span>
+            <h2 style="font-family:var(--font-heading); font-size:1.6rem; font-weight:800; color:#fff;">Emergency SOS Assistance</h2>
+            <p style="font-size:0.88rem; color:rgba(255,255,255,0.8); max-width:480px; margin:8px auto;">
+              1-Tap emergency pass generation with geolocation detection and nearby hospital directory.
+            </p>
+
+            <button id="main-sos-trigger-btn" class="sos-big-btn">
+              <span style="font-size:1.8rem;">🚨</span>
+              <span>TRIGGER SOS</span>
+            </button>
+
+            <div id="sos-location-status" style="font-size:0.82rem; color:var(--sky-500); margin-top:8px;">📍 Detecting location...</div>
+            <div id="sos-activation-status" style="margin-top:16px; display:none;"></div>
+          </div>
+
+          <div class="vc-card" style="margin-bottom:20px;">
+            <h3 class="card-title" style="margin-bottom:12px;">Paramedic Emergency Pass Data</h3>
+            <div id="sos-profile-summary"></div>
+          </div>
+
+          <div class="vc-card">
+            <h3 class="card-title" style="margin-bottom:14px;">Nearby Emergency Facilities</h3>
+            <div id="nearby-hospitals-list"></div>
+          </div>
+        </section>
+
+        <!-- VIEW 10: FIND HEALTHCARE -->
+        <section id="view-find-healthcare" class="view-section">
+          <div style="margin-bottom:20px;">
+            <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Find Healthcare Near You</h2>
+            <p style="color:var(--text-muted); font-size:0.85rem;">Locate hospitals, urgent care clinics, physicians, and 24/7 pharmacies.</p>
+          </div>
+
+          <div class="healthcare-search-bar">
+            <div class="search-input-wrap" style="flex:1;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="healthcare-search-input" class="input-field" placeholder="Search facilities, doctors or specialties..." />
+            </div>
+          </div>
+
+          <div class="category-grid">
+            <div class="category-card active" data-hc-cat="all"><div class="category-emoji">🏥</div><div class="category-name">All Facilities</div></div>
+            <div class="category-card" data-hc-cat="hospital"><div class="category-emoji">🚑</div><div class="category-name">Hospitals</div></div>
+            <div class="category-card" data-hc-cat="doctor"><div class="category-emoji">👩‍⚕️</div><div class="category-name">Doctors</div></div>
+            <div class="category-card" data-hc-cat="pharmacy"><div class="category-emoji">💊</div><div class="category-name">Pharmacies</div></div>
+          </div>
+
+          <div id="facilities-list-container"></div>
+        </section>
+
+        <!-- VIEW 11: HEALTH ANALYTICS -->
+        <section id="view-analytics" class="view-section">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Health Analytics</h2>
+              <p style="color:var(--text-muted); font-size:0.85rem;">Interactive biometric trends and AI explanation summaries.</p>
+            </div>
+            <div class="chart-timeframe-btn-group">
+              <button class="tf-btn analytics-range-btn active" data-range="7d">7 Days</button>
+              <button class="tf-btn analytics-range-btn" data-range="30d">30 Days</button>
+              <button class="tf-btn analytics-range-btn" data-range="3m">3 Months</button>
+            </div>
+          </div>
+
+          <div class="analytics-metric-tabs">
+            <button class="metric-tab-btn active" data-metric="healthScore">Health Score</button>
+            <button class="metric-tab-btn" data-metric="weight">Weight</button>
+            <button class="metric-tab-btn" data-metric="bmi">BMI</button>
+            <button class="metric-tab-btn" data-metric="sleep">Sleep</button>
+            <button class="metric-tab-btn" data-metric="activity">Activity</button>
+            <button class="metric-tab-btn" data-metric="adherence">Med Adherence</button>
+          </div>
+
+          <div id="analytics-stats-row" class="analytics-stat-grid"></div>
+
+          <div class="chart-container-card">
+            <div id="analytics-chart-canvas" style="width:100%; height:240px;"></div>
+            <div id="analytics-ai-trend" class="ai-trend-explanation"></div>
+          </div>
+        </section>
+
+        <!-- VIEW 12: AI RISK DASHBOARD -->
+        <section id="view-risk-dashboard" class="view-section">
+          <div class="risk-dashboard-header">
+            <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">AI Predictive Health Risk Dashboard</h2>
+            <p style="color:var(--text-muted); font-size:0.85rem;">Clinical risk engine factoring Age, BMI, Lifestyle, and Biometric History</p>
+          </div>
+
+          <div class="risk-grid-4">
+            <div class="risk-score-card low">
+              <div><span class="chip chip-ai">OVERALL HEALTH</span><div id="risk-overall-score" class="risk-score-val">94 <span>/ 100</span></div></div>
+              <div class="chip chip-normal">Optimal Wellness</div>
+            </div>
+            <div class="risk-score-card low">
+              <div><span class="chip chip-sky">CARDIOVASCULAR</span><div id="risk-cv-val" class="risk-score-val">12%</div></div>
+              <div class="chip chip-normal">Low Risk</div>
+            </div>
+            <div class="risk-score-card low">
+              <div><span class="chip chip-sky">DIABETES TYPE-2</span><div id="risk-diab-val" class="risk-score-val">14%</div></div>
+              <div class="chip chip-normal">Low Risk</div>
+            </div>
+            <div class="risk-score-card low">
+              <div><span class="chip chip-sky">LIFESTYLE STRESS</span><div id="risk-life-val" class="risk-score-val">18%</div></div>
+              <div class="chip chip-normal">Low Stress</div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="vc-card">
+              <h3 class="card-title" style="margin-bottom:14px;">Contributing Risk Factors</h3>
+              <div id="risk-factors-container" class="factors-list"></div>
+            </div>
+            <div class="vc-card">
+              <h3 class="card-title" style="margin-bottom:14px;">AI Actionable Risk Reduction Plan</h3>
+              <div style="display:flex; flex-direction:column; gap:10px; font-size:0.85rem;">
+                <div style="padding:10px; background:var(--bg-surface-elevated); border-radius:var(--radius-md);">
+                  <strong>1. Maintain Aerobic Hydration:</strong> Drinking 2.5L water daily supports blood viscosity.
+                </div>
+                <div style="padding:10px; background:var(--bg-surface-elevated); border-radius:var(--radius-md);">
+                  <strong>2. Soluble Fiber Addition:</strong> Adding 10g oats/flaxseed helps maintain optimal LDL (&lt; 100 mg/dL).
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="risk-disclaimer-card">
+            <span style="font-size:1.4rem;">💡</span>
+            <div><strong>AI Estimate Notice:</strong> Risk percentages are calculated based on algorithmic models using your biometrics and health profile. They represent probabilistic risk estimates, not formal medical diagnoses.</div>
+          </div>
+        </section>
+
+        <!-- VIEW 13: VITALS ANALYTICS & LAB TEST OCR -->
+        <section id="view-diagnostics" class="view-section">
+          <div class="diagnostics-header">
+            <div>
+              <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Vitals Analytics & Lab Scanner</h2>
+              <p style="color:var(--text-muted); font-size:0.85rem;">Interactive trend graphing & AI OCR extraction for bloodwork PDFs</p>
+            </div>
+            <div class="chart-timeframe-btn-group">
+              <button class="tf-btn active" data-tf="24h">24 Hours</button>
+              <button class="tf-btn" data-tf="7d">7 Days</button>
+              <button class="tf-btn" data-tf="30d">30 Days</button>
+            </div>
+          </div>
+          <div class="chart-container-card">
+            <div class="card-header"><h3 class="card-title">Heart Rate & Arterial Trend</h3><span class="chip chip-normal">Continuous Sync</span></div>
+            <div id="main-analytics-chart" class="main-chart-svg"></div>
+          </div>
+          <div class="vc-card">
+            <div class="card-header"><h3 class="card-title">AI Lab Report OCR Analyzer</h3><span class="chip chip-sky">Instant Extraction</span></div>
+            <div id="lab-dropzone" class="lab-uploader-box">
+              <input type="file" id="lab-file-input" accept=".pdf,.png,.jpg" style="display:none;" />
+              <div class="upload-icon-circle">📄</div>
+              <p id="upload-status-text" style="font-weight:700;">Drop Lab Report PDF/Image here or <span style="color:var(--sky-500); text-decoration:underline;">Browse Files</span></p>
+            </div>
+            <div id="lab-results-grid" class="lab-results-grid" style="display:none;"></div>
+          </div>
+        </section>
+
+        <!-- VIEW 14: TELEHEALTH CONSULTATION & DOCTOR HUB -->
+        <section id="view-telehealth" class="view-section">
+          <div style="margin-bottom:20px;">
+            <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Telehealth Specialist Directory</h2>
+            <p style="color:var(--text-muted); font-size:0.85rem;">Board-certified physicians available for instant HD video consultations</p>
+          </div>
+          <div class="specialty-filter-bar">
+            <button class="specialty-chip active" data-specialty="all">All Specialties</button>
+            <button class="specialty-chip" data-specialty="cardiology">Cardiology</button>
+            <button class="specialty-chip" data-specialty="neurology">Neurology</button>
+            <button class="specialty-chip" data-specialty="primary">Primary Care</button>
+            <button class="specialty-chip" data-specialty="dermatology">Dermatology</button>
+          </div>
+          <div id="doctors-grid-container" class="doctors-grid"></div>
+        </section>
+
+        <!-- VIEW 15: HEALTH VAULT & EMERGENCY PASS -->
+        <section id="view-vault" class="view-section">
+          <div class="vc-card-gradient" style="margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div>
+              <span class="chip chip-danger" style="margin-bottom:8px;">PARAMEDIC QR ACCESS</span>
+              <h2 style="font-size:1.4rem; font-weight:800; font-family:var(--font-heading);">Emergency EHR Medical Pass</h2>
+              <p style="font-size:0.88rem; opacity:0.85;">1-Tap Emergency Pass displaying Blood Type, Allergies, & Chronic Conditions for ER Responders.</p>
+            </div>
+            <button id="open-emergency-pass-btn" class="btn btn-danger btn-lg">View QR Medical Pass</button>
+          </div>
+          <h3 class="card-title" style="margin-bottom:16px;">Encrypted Health Documents</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:16px;">
+            <div class="vc-card"><div style="font-size:1.8rem; margin-bottom:10px;">📋</div><h4 style="font-weight:700;">Annual Physical Report 2026</h4><p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:12px;">Dr. Elena Rostova • PDF (2.4 MB)</p><button class="btn btn-secondary btn-sm" style="width:100%;">Download Record</button></div>
+            <div class="vc-card"><div style="font-size:1.8rem; margin-bottom:10px;">🧬</div><h4 style="font-weight:700;">Lipid & HbA1c Lab Panel</h4><p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:12px;">Quest Diagnostics • PDF (1.1 MB)</p><button class="btn btn-secondary btn-sm" style="width:100%;">Download Record</button></div>
+            <div class="vc-card"><div style="font-size:1.8rem; margin-bottom:10px;">💉</div><h4 style="font-weight:700;">COVID-19 & Flu Immunization</h4><p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:12px;">Verified Digital Certificate</p><button class="btn btn-secondary btn-sm" style="width:100%;">Download Record</button></div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             VIEW 17: DAILY HEALTH JOURNAL
+             ========================================== -->
+        <section id="view-journal" class="view-section">
+
+          <!-- Section Header -->
+          <div class="journal-section-header">
+            <div>
+              <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Daily Health Journal</h2>
+              <p style="color:var(--text-muted); font-size:0.85rem;">Log your mood, energy levels, symptoms, and daily health notes.</p>
+            </div>
+            <button id="show-journal-form-btn" class="btn btn-primary">+ New Entry</button>
+          </div>
+
+          <!-- AI Insight Banner -->
+          <div class="journal-ai-banner">
+            <div class="journal-ai-icon">🤖</div>
+            <div>
+              <div class="journal-ai-label">AI Health Insight</div>
+              <div id="journal-ai-insight-text">Loading AI insight...</div>
+            </div>
+          </div>
+
+          <!-- New Entry Form (hidden by default) -->
+          <div id="journal-form-panel" class="journal-form-panel" style="display:none;">
+            <div class="journal-form-title">📝 Log Health Entry</div>
+            <form id="journal-entry-form" novalidate>
+
+              <!-- Date -->
+              <div class="form-group" style="margin-bottom:16px;">
+                <label class="form-label">Date</label>
+                <input type="date" id="journal-date-input" class="input-field" />
+              </div>
+
+              <!-- Mood Picker -->
+              <div style="margin-bottom:18px;">
+                <label class="form-label">How are you feeling today?</label>
+                <div class="mood-picker-row">
+                  <button type="button" class="mood-pick-btn" data-emoji="😄" data-label="Great" data-color="#10B981">
+                    <span class="mood-emoji">😄</span><span class="mood-label">Great</span>
+                  </button>
+                  <button type="button" class="mood-pick-btn selected" data-emoji="🙂" data-label="Good" data-color="#0EA5E9">
+                    <span class="mood-emoji">🙂</span><span class="mood-label">Good</span>
+                  </button>
+                  <button type="button" class="mood-pick-btn" data-emoji="😐" data-label="Neutral" data-color="#F59E0B">
+                    <span class="mood-emoji">😐</span><span class="mood-label">Neutral</span>
+                  </button>
+                  <button type="button" class="mood-pick-btn" data-emoji="😔" data-label="Low" data-color="#F97316">
+                    <span class="mood-emoji">😔</span><span class="mood-label">Low</span>
+                  </button>
+                  <button type="button" class="mood-pick-btn" data-emoji="😫" data-label="Rough" data-color="#F43F5E">
+                    <span class="mood-emoji">😫</span><span class="mood-label">Rough</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Energy Level -->
+              <div style="margin-bottom:18px;">
+                <label class="form-label">Energy Level</label>
+                <div class="energy-slider-row">
+                  <label>Low</label>
+                  <input type="range" id="journal-energy-slider" min="1" max="5" value="3" />
+                  <span id="journal-energy-val" style="font-size:0.82rem; font-weight:700; color:var(--sky-500); min-width:90px; text-align:right;">Moderate</span>
+                </div>
+              </div>
+
+              <!-- Notes -->
+              <div class="form-group" style="margin-bottom:16px;">
+                <label class="form-label" for="journal-notes-input">Health Notes</label>
+                <textarea id="journal-notes-input" class="textarea-field" rows="4" placeholder="Describe how you feel today — symptoms, activities, sleep quality, meals..."></textarea>
+              </div>
+
+              <!-- Tags -->
+              <div class="journal-tags-area">
+                <label>Tags <span style="font-weight:400; color:var(--text-muted);">(press Enter or comma to add)</span></label>
+                <div class="tags-input-wrap">
+                  <div id="journal-tags-list"></div>
+                  <input type="text" id="journal-tags-input" placeholder="e.g. headache, exercise, sleep..." />
+                </div>
+              </div>
+
+              <div style="display:flex; gap:10px; margin-top:18px;">
+                <button type="submit" id="journal-submit-btn" class="btn btn-primary" style="flex:1;">💾 Save Journal Entry</button>
+                <button type="button" id="journal-cancel-btn" class="btn btn-secondary">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Mood Filter Bar -->
+          <div class="journal-filter-bar">
+            <button class="journal-filter-btn active" data-mood-filter="all">All Entries</button>
+            <button class="journal-filter-btn" data-mood-filter="great">😄 Great</button>
+            <button class="journal-filter-btn" data-mood-filter="good">🙂 Good</button>
+            <button class="journal-filter-btn" data-mood-filter="neutral">😐 Neutral</button>
+            <button class="journal-filter-btn" data-mood-filter="low">😔 Low</button>
+            <button class="journal-filter-btn" data-mood-filter="rough">😫 Rough</button>
+          </div>
+
+          <!-- Entries List -->
+          <div id="journal-entries-container" class="journal-entries-grid"></div>
+
+        </section>
+
+        <!-- ==========================================
+             VIEW 16: ADMIN SECURITY DASHBOARD
+             ========================================== -->
+        <section id="view-admin-dashboard" class="view-section" style="padding:0;">
+          <div class="admin-dashboard-header">
+            <div>
+              <span class="chip chip-indigo" style="margin-bottom:10px; display:inline-flex;">🛡️ ADMIN PORTAL — RESTRICTED</span>
+              <h1 style="font-family:var(--font-heading); font-size:1.6rem; font-weight:800; color:#fff; margin-bottom:4px;">Security Console</h1>
+              <p style="color:rgba(255,255,255,0.6); font-size:0.85rem;">Welcome, <span id="admin-dashboard-name" style="color:rgba(255,255,255,0.9); font-weight:700;">Administrator</span> · Last login: <span id="admin-last-login" style="color:rgba(255,255,255,0.7);">just now</span></p>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="window.appNav('landing')">← Public Site</button>
+              <button class="btn btn-danger btn-sm logout-btn">Sign Out</button>
+            </div>
+          </div>
+
+          <!-- Security Stats -->
+          <div class="admin-security-grid">
+            <div class="admin-stat-card sessions">
+              <div class="admin-stat-icon">🟢</div>
+              <div class="admin-stat-value">1</div>
+              <div class="admin-stat-label">Active Sessions</div>
+            </div>
+            <div class="admin-stat-card logins">
+              <div class="admin-stat-icon">✅</div>
+              <div class="admin-stat-value" id="admin-total-logins">0</div>
+              <div class="admin-stat-label">Successful Logins</div>
+            </div>
+            <div class="admin-stat-card failed">
+              <div class="admin-stat-icon">⚠️</div>
+              <div class="admin-stat-value" id="admin-failed-logins">0</div>
+              <div class="admin-stat-label">Failed Attempts</div>
+            </div>
+            <div class="admin-stat-card audit">
+              <div class="admin-stat-icon">📋</div>
+              <div class="admin-stat-value" id="admin-audit-count">0</div>
+              <div class="admin-stat-label">Audit Log Entries</div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="vc-card" style="margin-bottom:20px;">
+            <div class="card-header"><h3 class="card-title">Quick Administration</h3></div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; padding-top:8px;">
+              <button class="btn btn-secondary btn-sm" onclick="window.appNav('dashboard')">👁 View Patient Dashboard</button>
+              <button class="btn btn-secondary btn-sm" onclick="window.appNav('records')">📁 Health Records</button>
+              <button class="btn btn-secondary btn-sm" onclick="window.appNav('medications')">💊 Medications</button>
+              <button class="btn btn-secondary btn-sm" onclick="window.appNav('analytics')">📊 Analytics</button>
+            </div>
+          </div>
+
+          <!-- Audit Log -->
+          <div class="admin-audit-card vc-card">
+            <div class="card-header" style="border-bottom:1px solid var(--border-light); padding-bottom:14px; margin-bottom:0;">
+              <h3 class="card-title">🔍 Security Audit Log</h3>
+              <span class="chip chip-sky" style="font-size:0.72rem;">Live</span>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="audit-log-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Event</th>
+                    <th>Identifier</th>
+                    <th>IP Address</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-log-tbody">
+                  <tr><td colspan="5" style="text-align:center; padding:20px; color:var(--text-muted);">Loading audit log...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- ==========================================
+         MOBILE BOTTOM NAVIGATION BAR (< 768px)
+         ========================================== -->
+    <nav class="mobile-bottom-nav">
+      <a class="mobile-nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        <span>Home</span>
+      </a>
+      <a class="mobile-nav-item" data-view="copilot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>Triage</span>
+      </a>
+      <a class="mobile-nav-item" data-view="medications" style="position:relative;">
+        <span id="badge-medications-mobile" class="mobile-nav-badge"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z"/><path d="M8.5 8.5l7 7"/></svg>
+        <span>Meds</span>
+      </a>
+      <a class="mobile-nav-item" data-view="emergency" style="color:var(--rose-500);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.29 3.86L1.82 18a2 2 0 0 1 1.71 3h16.94a2 2 0 0 1 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>SOS</span>
+      </a>
+      <a class="mobile-nav-item" data-view="journal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+        <span>Journal</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- MODAL: EMERGENCY SOS CONFIRMATION -->
+  <div id="sos-confirm-modal" class="modal-backdrop">
+    <div class="modal-container" style="max-width:400px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color:var(--rose-600);">🚨 Confirm Emergency SOS</h3>
+        <button id="sos-cancel-btn" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body text-center">
+        <p style="font-size:0.9rem; color:var(--text-primary); font-weight:600; margin-bottom:12px;">
+          Are you experiencing a medical emergency?
+        </p>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:20px;">
+          Activating Emergency SOS will prepare your Emergency Medical Pass and GPS location.
+        </p>
+      </div>
+      <div class="modal-footer" style="display:flex; gap:10px;">
+        <button class="btn btn-secondary" style="flex:1;" onclick="document.getElementById('sos-confirm-modal').classList.remove('active')">Cancel</button>
+        <button id="sos-confirm-activate" class="btn btn-danger" style="flex:1;">Confirm SOS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: FORGOT PASSWORD -->
+  <div id="forgot-password-modal" class="modal-backdrop">
+    <div class="modal-container" style="max-width:400px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Reset Password</h3>
+        <button id="close-forgot-modal" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Enter registered email address for reset link.</p>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="reset-email-input" class="input-field" placeholder="alex.miller@vitalcare.ai" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="send-reset-btn" class="btn btn-primary" style="width:100%;">Send Reset Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DOCTOR BOOKING -->
+  <div id="booking-modal-overlay" class="modal-backdrop">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">Book Telehealth Consultation</h3>
+        <button id="close-booking-modal" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; gap:14px; align-items:center; margin-bottom:16px;">
+          <img id="booking-doc-avatar" src="" style="width:54px; height:54px; border-radius:50%; object-fit:cover; border:2px solid var(--sky-500);" alt="Doc Avatar" />
+          <div>
+            <h4 id="booking-doc-name" style="font-weight:700; font-size:1.05rem;">Dr. Name</h4>
+            <p id="booking-doc-title" style="font-size:0.8rem; color:var(--sky-600); font-weight:600;">Specialty</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Select Slot (Today):</label>
+          <div class="slots-grid">
+            <button class="slot-btn selected">4:30 PM</button>
+            <button class="slot-btn">5:00 PM</button>
+            <button class="slot-btn">6:15 PM</button>
+          </div>
+        </div>
+        <div class="form-group"><label class="form-label">Symptom Note (Optional):</label><textarea class="textarea-field" rows="3" placeholder="Describe symptoms..."></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button id="confirm-booking-btn" class="btn btn-primary" style="width:100%;">Confirm Appointment ($45.00)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TELEHEALTH VIDEO ROOM -->
+  <div id="telehealth-room-overlay" class="telehealth-room-modal">
+    <div class="room-header">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="chip chip-danger" style="animation:pulse-ring 1.5s infinite;">LIVE CONSULTATION</span>
+        <h3 id="room-doc-name" style="font-size:1rem; font-weight:700;">Dr. Sarah Jenkins</h3>
+      </div>
+      <div id="call-timer-display" style="font-family:monospace; font-size:1.1rem; font-weight:700; color:var(--sky-500);">00:00</div>
+    </div>
+    <div class="room-body">
+      <div class="video-container">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1200&q=80" alt="Doctor Feed" class="doctor-video-feed" />
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Patient Feed" class="patient-pip-video" />
+        <div class="live-transcription-banner">
+          <strong style="color:var(--sky-500);">Dr. Jenkins:</strong> "Hello Alex, I see your vitals are looking stable. How has your chest comfort been since yesterday?"
+        </div>
+      </div>
+      <div class="call-vitals-sidebar">
+        <h4 style="font-size:0.9rem; font-weight:700; color:var(--sky-500);">Real-Time Vitals Stream</h4>
+        <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:10px;">
+          <div style="font-size:0.75rem; color:#94A3B8;">Heart Rate</div>
+          <div style="font-size:1.4rem; font-weight:800; color:#10B981;">72 BPM</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:10px;">
+          <div style="font-size:0.75rem; color:#94A3B8;">Blood Pressure</div>
+          <div style="font-size:1.4rem; font-weight:800; color:#38BDF8;">118 / 78</div>
+        </div>
+      </div>
+    </div>
+    <div class="room-controls">
+      <button id="toggle-mute-btn" class="control-btn" title="Mute Microphone">🎤</button>
+      <button id="toggle-cam-btn" class="control-btn" title="Toggle Camera">📹</button>
+      <button id="end-call-btn" class="control-btn end-call" title="End Call">📞</button>
+    </div>
+  </div>
+
+  <!-- MODAL: EMERGENCY QR MEDICAL PASS -->
+  <div id="emergency-pass-modal" class="modal-backdrop">
+    <div class="modal-container" style="max-width:420px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color:var(--rose-600);">🚨 Emergency Medical Pass</h3>
+        <button id="close-emergency-pass-modal" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="emergency-pass-card">
+          <h3 style="font-size:1.2rem; font-weight:800;">Alex Miller</h3>
+          <p style="font-size:0.8rem; opacity:0.8;">DOB: 11/14/1992 • Male</p>
+          <div class="qr-code-box">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=VITALCARE_EMERGENCY_PASS_ALEX_MILLER_BLOOD_O_POSITIVE_ALLERGY_PENICILLIN" alt="Emergency QR Code" />
+          </div>
+          <div class="patient-vital-tags">
+            <span class="pass-tag" style="background:rgba(244,63,94,0.3); border-color:var(--rose-500);">🩸 Blood Group: O+</span>
+            <span class="pass-tag" style="background:rgba(245,158,11,0.3); border-color:var(--amber-500);">⚠️ Allergy: Penicillin</span>
+            <span class="pass-tag">📞 Emergency Contact: (555) 019-2831</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript App Loader (ES Modules) -->
+  <script type="module" src="js/app.js?v=6.0"></script>
+</body>
+</html>

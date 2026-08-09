@@ -1,0 +1,108 @@
+/* ==========================================
+   VITALCARE AI - DESIGN SYSTEM & TOKENS
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Color Tokens - Light Theme Default */
+  --bg-app: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FAFC;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  
+  --border-light: rgba(226, 232, 240, 0.8);
+  --border-medium: #CBD5E1;
+  --border-focus: #0EA5E9;
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --text-inverse: #FFFFFF;
+
+  /* Medical Startup Palette */
+  --teal-500: #14B8A6;
+  --teal-600: #0D9488;
+  --cyan-500: #06B6D4;
+  --cyan-600: #0891B2;
+  --sky-500: #0EA5E9;
+  --sky-600: #0284C7;
+  --blue-600: #2563EB;
+  
+  --emerald-500: #10B981;
+  --emerald-600: #059669;
+  --emerald-bg: #ECFDF5;
+
+  --amber-500: #F59E0B;
+  --amber-bg: #FFFBEB;
+  
+  --rose-500: #F43F5E;
+  --rose-600: #E11D48;
+  --rose-bg: #FFF1F2;
+
+  --indigo-500: #6366F1;
+  --purple-500: #A855F7;
+
+  /* Gradients */
+  --grad-primary: linear-gradient(135deg, #0EA5E9 0%, #14B8A6 100%);
+  --grad-accent: linear-gradient(135deg, #6366F1 0%, #0EA5E9 100%);
+  --grad-emerald: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+  --grad-rose: linear-gradient(135deg, #F43F5E 0%, #FB7185 100%);
+  --grad-glass: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 100%);
+  --grad-dark-card: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
+  --shadow-glow-cyan: 0 0 20px rgba(14, 165, 233, 0.35);
+  --shadow-glow-emerald: 0 0 20px rgba(16, 185, 129, 0.35);
+
+  /* Typography */
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+
+  /* Spacing */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s var(--ease-smooth);
+  --transition-normal: 0.25s var(--ease-smooth);
+  --transition-slow: 0.4s var(--ease-smooth);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  --bg-app: #090D16;
+  --bg-surface: #0F172A;
+  --bg-surface-elevated: #1E293B;
+  --bg-card: #1E293B;
+  --bg-card-hover: #334155;
+  --bg-glass: rgba(15, 23, 42, 0.85);
+
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.18);
+  --border-focus: #38BDF8;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #64748B;
+  --text-inverse: #0F172A;
+
+  --emerald-bg: rgba(16, 185, 129, 0.15);
+  --amber-bg: rgba(245, 158, 11, 0.15);
+  --rose-bg: rgba(244, 63, 94, 0.15);
+
+  --grad-glass: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.6) 100%);
+  --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 30px -10px rgba(0, 0, 0, 0.6);
+}

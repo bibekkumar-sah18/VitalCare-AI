@@ -1,0 +1,379 @@
+﻿/* ==========================================
+   VITALCARE AI - HEALTH JOURNAL STYLES
+   ========================================== */
+
+/* ── Journal Layout ── */
+.journal-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.journal-ai-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(14,165,233,0.12) 100%);
+  border: 1px solid rgba(99,102,241,0.25);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+
+.journal-ai-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.journal-ai-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--indigo-500);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+
+#journal-ai-insight-text {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Filter Bar ── */
+.journal-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.journal-filter-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  background: var(--bg-surface-elevated);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-main);
+}
+
+.journal-filter-btn:hover {
+  border-color: var(--sky-500);
+  color: var(--sky-500);
+}
+
+.journal-filter-btn.active {
+  background: linear-gradient(135deg, #0EA5E9, #10B981);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ── Entry Form Panel ── */
+.journal-form-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-md);
+  animation: slideDown 0.25s var(--ease-spring);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.journal-form-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 18px;
+  color: var(--text-primary);
+}
+
+/* ── Mood Picker ── */
+.mood-picker-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.mood-pick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-light);
+  background: var(--bg-surface-elevated);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-main);
+}
+
+.mood-pick-btn:hover {
+  border-color: var(--sky-500);
+  transform: translateY(-2px);
+}
+
+.mood-pick-btn.selected {
+  border-color: var(--sky-500);
+  background: rgba(14, 165, 233, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
+}
+
+.mood-pick-btn .mood-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.mood-pick-btn .mood-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.mood-pick-btn.selected .mood-label {
+  color: var(--sky-500);
+}
+
+/* ── Energy Slider ── */
+.energy-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.energy-slider-row label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  min-width: 60px;
+}
+
+#journal-energy-slider {
+  flex: 1;
+  accent-color: var(--sky-500);
+  height: 6px;
+}
+
+#journal-energy-val {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--sky-500);
+  flex-shrink: 0;
+  min-width: 80px;
+  text-align: right;
+}
+
+/* ── Tags Input ── */
+.journal-tags-area {
+  margin-bottom: 16px;
+}
+
+.journal-tags-area label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.tags-input-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  min-height: 44px;
+  align-items: center;
+  transition: border-color var(--transition-fast);
+}
+
+.tags-input-wrap:focus-within {
+  border-color: var(--border-focus);
+}
+
+#journal-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.journal-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(14, 165, 233, 0.15);
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  color: var(--sky-500);
+  border-radius: var(--radius-full);
+  padding: 2px 8px 2px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.tag-pill-remove {
+  background: none;
+  border: none;
+  color: var(--sky-500);
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  padding: 0;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.tag-pill-remove:hover { opacity: 1; }
+
+#journal-tags-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  min-width: 120px;
+  flex: 1;
+}
+
+/* ── Entry Cards ── */
+.journal-entries-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.journal-entry-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  padding: 18px;
+  transition: all var(--transition-normal);
+  animation: fadeInUp 0.3s var(--ease-smooth);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.journal-entry-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.journal-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.journal-mood-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.journal-entry-notes {
+  font-size: 0.87rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 10px 0;
+}
+
+.journal-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+/* ── Empty State ── */
+.journal-empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-muted);
+}
+
+.journal-empty-state h3 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.journal-empty-state p {
+  font-size: 0.85rem;
+}
+
+/* ── Notification Badges ── */
+.nav-badge {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  background: var(--rose-500);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 0 4px;
+  margin-left: auto;
+  animation: badgePop 0.3s var(--ease-spring);
+}
+
+@keyframes badgePop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+/* Mobile nav badge positioning */
+.mobile-nav-item {
+  position: relative;
+}
+
+.mobile-nav-badge {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  background: var(--rose-500);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 0 3px;
+  animation: badgePop 0.3s var(--ease-spring);
+}

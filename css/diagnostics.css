@@ -1,0 +1,171 @@
+/* ==========================================
+   VITALCARE AI - DIAGNOSTICS & EHR VAULT STYLES
+   ========================================== */
+
+.diagnostics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chart-timeframe-btn-group {
+  display: flex;
+  background: var(--bg-surface-elevated);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+.tf-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tf-btn.active {
+  background: var(--bg-card);
+  color: var(--sky-600);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Analytics Chart Container */
+.chart-container-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.main-chart-svg {
+  width: 100%;
+  height: 260px;
+}
+
+/* Drag and Drop Lab Scanner Box */
+.lab-uploader-box {
+  border: 2px dashed var(--sky-500);
+  background: rgba(14, 165, 233, 0.04);
+  border-radius: var(--radius-lg);
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-bottom: 24px;
+}
+
+.lab-uploader-box:hover {
+  background: rgba(14, 165, 233, 0.08);
+  border-color: var(--sky-600);
+}
+
+.upload-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(14, 165, 233, 0.12);
+  color: var(--sky-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px auto;
+}
+
+/* Extracted Lab Markers Table */
+.lab-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.marker-card {
+  background: var(--bg-surface-elevated);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  border: 1px solid var(--border-light);
+}
+
+.marker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.marker-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.marker-range-bar {
+  height: 6px;
+  background: var(--border-medium);
+  border-radius: 4px;
+  margin-top: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.marker-fill-pin {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--emerald-500);
+}
+.marker-fill-pin.high {
+  background: var(--rose-500);
+}
+.marker-fill-pin.warning {
+  background: var(--amber-500);
+}
+
+/* Emergency QR Medical Pass Modal */
+.emergency-pass-card {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  color: #FFFFFF;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.qr-code-box {
+  background: #FFFFFF;
+  padding: 14px;
+  border-radius: var(--radius-lg);
+  display: inline-block;
+  margin: 16px 0;
+  box-shadow: var(--shadow-md);
+}
+
+.qr-code-box img {
+  width: 160px;
+  height: 160px;
+  display: block;
+}
+
+.patient-vital-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.pass-tag {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
